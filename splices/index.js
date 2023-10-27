@@ -28,7 +28,7 @@ const handelCenter = (center) => {
     id: parseInt(id),
     valueX: parseFloat(valueX),
     valueY: parseFloat(valueY),
-  };
+  }; 
 };
 
 export const handlSlicedata = (Data) => {
@@ -63,14 +63,3 @@ export const handlSlicedata = (Data) => {
   }
 };
 
-export const getData = async () => {
-  handelread()
-  .then(data => {
-    handlSlicedata(data)
-     
-  })
-  .catch(err => {
-    console.error('Error:', err);
-  });
-
-};
