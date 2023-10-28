@@ -1,11 +1,10 @@
-import logo from './logo.svg';
-import './App.css';
-import ScatterChart from './components/ScatterChart';
+// import './App.css';
+import BarChart from './components/ScatterChart';
 
 function App() {
   return (
     <div className="App">
-      <ScatterChart />
+      <BarChart />
  
     </div>
   );

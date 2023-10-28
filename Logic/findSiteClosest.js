@@ -4,7 +4,7 @@ function findSiteClosest(vehicle , sites) {
     if (sites.length === 0) {
         return null; 
     }
-        const siteClosest =sites[0]
+        let siteClosest =sites[0]
   
         for (let i = 1; i < sites.length; i++) {
           if (calculateDistance(vehicle ,sites[i]) < calculateDistance(vehicle ,siteClosest)) {
