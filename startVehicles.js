@@ -6,18 +6,15 @@ export default function startVehicles(central,vehicles,sites,sitesVisited) {
         if (sites.length > 0) {
             const res = TransportingVehicle(vehicles[i], sites, sitesVisited);
             sites = res.sites;
-          console.log([i] , res.path.length);
-        //   console.log(i + 1, res.path.length);
-
-           // Log res.path
+          // console.log(["vehicle "+ i] , res.path.length);
+          // console.log("path ",res.path);
           sitesVisited.concat(res.path)
-      console.log("sitesVisited",sitesVisited .length)
+        //  console.log("sitesVisited",sitesVisited .length)
 
         }
       
       }
-    //   console.log("sites",sites)
-    //   console.log("sitesVisited",sitesVisited.length)
+    
 
   return { sites, sitesVisited }; // Return the updated values
 }
