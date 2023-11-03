@@ -56,7 +56,7 @@ export const handlSlicedata = (Data) => {
     const sites = sitesText
       .split("\n")
       .map(handelSite)
-      .filter((site) => site.id !== "");
+      .filter((site) => site.siteid !== "");
       return {central:central,vehicles:vehicles,sites:sites }
   } else {
     return { central:[],vehicles:[],sites:[] };

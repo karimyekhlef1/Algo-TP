@@ -6,7 +6,7 @@ export function calculateDistance(point1, point2) {
     return distance;
   }
   else {
-    return console.log("this site is not ")
+    return console.log("you can not accse this site  ")
   }   
   }
   
