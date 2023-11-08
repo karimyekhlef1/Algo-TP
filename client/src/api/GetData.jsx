@@ -11,7 +11,7 @@ const GetData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const apiUrl = 'http://localhost:8080/'; // Replace with your API URL
+        const apiUrl = 'http://localhost:8080/'; 
         const response = await axios.get(apiUrl);
         setData(response.data);
         setLoading(false);
@@ -24,7 +24,8 @@ const GetData = () => {
       try {
         const apiUrl = 'http://localhost:8080/start';
         const response = await axios.get(apiUrl);
-        setpath(response.data); // Assuming you have `setpath` defined
+        setpath(response); 
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -32,7 +33,6 @@ const GetData = () => {
 
     fetchData();
   }, []);
-  console.log(path)
 
   return (
     <div>
@@ -41,7 +41,7 @@ const GetData = () => {
       ) : error ? (
         <p>Error: {error.message}</p>
       ) : data && data.data ? (
-        <Flow Allsites={data.data} path={path} />
+        <Flow Allsites={data?.data} path={path?.data} />
       ) : (
         <p>No data available.</p>
       )}

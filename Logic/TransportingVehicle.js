@@ -3,16 +3,15 @@ import { calculateDistance } from "./calculateDistance.js";
 import CheckBackToCenter from "./CheckBackToCenter.js";
 import collectMilk from "./collectMilk.js";
 // const central = { id: 0, valueX: 30.54, valueY: 38.81 };
-
-
 export default function TransportingVehicle(
   vehicle,
   sites,
   sitesVisited,
-  central
+  central,
+  distanceTotal
 ) {
 
-  console.log("center==>", central);
+  // console.log("center==>", central);
   const vehicleID = vehicle.id;
   const siteIntiVehicle = {
     id: vehicle.site,
@@ -20,6 +19,7 @@ export default function TransportingVehicle(
     valueY: vehicle.valueY,
   };
   const path = [vehicle];
+  let arryOfNewVehicle=[]
 
   let newVehicle = vehicle;
 
@@ -32,12 +32,13 @@ export default function TransportingVehicle(
       newVehicle.ability >= SiteClosest.amount
     ) {
       const Distance = calculateDistance(newVehicle, SiteClosest);
+      distanceTotal = distanceTotal+Distance
       const newAbility= collectMilk(newVehicle,SiteClosest).ability
       // const newAbility = newVehicle.ability - SiteClosest.amount;
       const updatedSitesVisited = [...sitesVisited, SiteClosest];
       const newDistance = newVehicle.distance - Distance;
 
-      newVehicle = {
+       newVehicle = {
         ...newVehicle,
         distance: newDistance,
         ability: newAbility,
@@ -45,21 +46,23 @@ export default function TransportingVehicle(
         valueY: SiteClosest.valueY,
         site: SiteClosest.id,
       };
-
-      sitesVisited.push(SiteClosest);
-      path.push(SiteClosest);
+      // arryOfNewVehicle=arryOfNewVehicle.push(newVehicle)
+      // sitesVisited.push(SiteClosest)
+      ;
+      path.push({...SiteClosest ,newVehicle:newVehicle});
 
       sites = sites.filter((site) => site.id !== SiteClosest.id);
     } else {
       if (calculateDistance(newVehicle, central) < newVehicle.distance) {
         const Distance = calculateDistance(newVehicle, central);
+        distanceTotal = distanceTotal+Distance
 
         let updatedSitesVisited = [...sitesVisited, SiteClosest];
         const newDistance = newVehicle.distance - Distance;
         path.push(central);
 
         // Update newVehicle with the changes
-        newVehicle = {
+         newVehicle = {
           ...newVehicle,
           distance: newDistance,
           valueX: central.valueX,
@@ -67,6 +70,8 @@ export default function TransportingVehicle(
           site: central.id,
         };
       }
+      // arryOfNewVehicle = arryOfNewVehicle.push(newVehicle)
+
 
       break;
     }
@@ -74,6 +79,7 @@ export default function TransportingVehicle(
     sites.length > 0 &&
     CheckBackToCenter(newVehicle, findSiteClosest(newVehicle, sites), central)
   );
+  // console.log(path)
 
   return {
     newVehicle,
@@ -81,6 +87,9 @@ export default function TransportingVehicle(
     // leng: path.length,
     sites,
     sitesVisited,
+     distanceTotal
+
+
   };
 }
 

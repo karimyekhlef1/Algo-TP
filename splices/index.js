@@ -1,6 +1,4 @@
 import handelread from "../readfile.js";
-
-
 const handelvehicle = (vehicle) => {
   const [site, valueX, valueY, id, ability, distance] = vehicle.split("|");
 
@@ -44,6 +42,7 @@ export const handlSlicedata = (Data) => {
     const centralText = centralMatch[1].trim();
     const vehiclesText = vehicleMatch[1].trim();
     const sitesText = siteMatch[1].trim();
+    // console.log(vehiclesText)
 
     const central = centralText
       .split("\n")

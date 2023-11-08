@@ -10,20 +10,11 @@ import ReactFlow, {
 } from "reactflow";
 import "reactflow/dist/style.css";
 import CustomNode from "./CustomNode";
-import axios from "axios";
+
 
 const nodeTypes = {
   customNode: CustomNode,
 };
-
-
-
-
-
-
-
-
-
 
 const createEdges = (data) => {
   const edges = [];
@@ -41,30 +32,41 @@ const createEdges = (data) => {
         target:`${
           targetNode.site ? targetNode.site : targetNode.id.toString()
         }`,
-        label: `vehicle ${sourceNode?.vehicleId}`,
+        // data:{
+
+        label: `
+        vehicle ${sourceNode?.vehicleId} , ${sourceNode.newVehicle ?
+          ' ability :' + sourceNode.newVehicle?.ability +","+ " distance :" +sourceNode.newVehicle?.distance.toFixed(1)
+
+          :
+          ' ability :' + sourceNode.ability +","+ " distance :" +sourceNode.distance.toFixed(1) 
+
+
+        }
+        
+        `,
         animated: true,
         // style: { stroke: "blue" },
         markerEnd: {
           type: MarkerType.ArrowClosed,
-          width: 20,
-          height: 20,
+          width: 10,
+          height: 10,
           color: 'black',
         },
-        // label: 'marker size and color',
         style: {
-          strokeWidth: 2,
+          strokeWidth: 4,
           stroke: 'green',
         },
       };
-      console.log(edge)
       edges.push(edge);
     }
   }
   return edges;
 };
 
-function Flow({Allsites , path}) {
-  console.log(path?.data)
+function Flow({Allsites , path }) {
+  // console.log("data,",path?.distanceTotalALLvehicles)
+  // console.log(distance)
 
   const sites = Allsites?.map((item) => {
     return {
@@ -73,12 +75,14 @@ function Flow({Allsites , path}) {
       data: {
         label: `S:${item.site ? item.site : item.id?.toString()}`,
       },
-      position: { x: item.valueX * 40, y: item.valueY * 40 },
+      position: { x: item.valueX *20, y: item.valueY*20  },
     };
   });
 
   const Edges = createEdges(path?.data);
   console.log(Edges)
+
+  const [distance, setdistance] = useState(0);
 
   const [start, setstart] = useState(false);
   const [nodes, setNodes] = useNodesState(sites);
@@ -88,13 +92,17 @@ function Flow({Allsites , path}) {
     if (!start) {
       setstart(true);
       setEdges(Edges);
+      setdistance(path?.distanceTotalALLvehicles)
     } else {
       setstart(false);
       setEdges([]);
+      setdistance(0)
+
     }
   };
   return (
     <div style={{ height: "100vh", width: "100%" }}>
+
       <div
         style={{
           Background: " rgba(255,255,255,0.5)",
@@ -106,7 +114,9 @@ function Flow({Allsites , path}) {
           width: "100%",
           display: "flex",
           justifyContent: "center",
+          flexFlow:"column",
           alignItems: "center",
+          padding:"10px"
         }}
         onClick={Handlestart}
       >
@@ -138,8 +148,19 @@ function Flow({Allsites , path}) {
           >
             Start
           </h2>
+    
         )}
-      </div>
+             <div style={{fontFamily:"inherit" , fontSize:"28px"}}>
+        Distance:
+         <span style={{fontWeight:"bold"}} >{distance}</span>
+
+        </div>
+
+
+        </div>
+
+        
+ 
       <ReactFlow  nodes={nodes} edges={edges}>
         <Background />
         <Controls />
