@@ -1,8 +1,11 @@
 import fs from 'fs/promises';
-const filePath = './data/AAC-LT-150_113712.txt';
-const handelread = async () => {
+
+
+
+const handelread = async (file) => {
   try {
-    const data = await fs.readFile(filePath, 'utf8');
+    
+    const data = await fs.readFile(file, 'utf8');
     return data;
   } catch (err) {
     console.error('Error reading the file:', err);

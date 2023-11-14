@@ -7,29 +7,23 @@ export default function startVehicles(central,vehicles,sites,sitesVisited ,dista
     for (let i = 0; i < vehicles.length; i++) {
       // console.log("sites==========>",sites?.length,sites)
         if (sites?.length > 0) {
-          // console.log("vehicles===========>",vehicles[i])
 
             const res = TransportingVehicle(vehicles[i], sites, sitesVisited,central,distanceTotal);
             sites = res.sites;
 
-          // console.log(["vehicle "+ vehicles[i].id] , res.path);
           pathByVehicle.push({vehicle :vehicles[i] , path :res.path})
 
           console.log(`vehicles :${vehicles[i].id}` ,res.distanceTotal);
-          distanceTotalALLvehicles.push( res.distanceTotal)
+          distanceTotalALLvehicles.push( { id :vehicles[i].id, distance :res.distanceTotal})
           sitesVisited.concat(res.path)
 
-        //  console.log("sitesVisited",sitesVisited .length)
 
         }
-        // else{
-        //   console.log("TEST")
-        // }
+        
       
       }
-      // console.log("======",pathByVehicle)
 
 
       console.log("----------->distanceTotalALLvehicles",distanceTotalALLvehicles)
-  return { sites, sitesVisited  ,pathByVehicle , distanceTotalALLvehicles}; 
+  return { sites, sitesVisited  ,pathByVehicle , distanceTotalALLvehicles }; 
 }

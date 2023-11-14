@@ -7,6 +7,7 @@ import CheckBackToCenter from "./Logic/CheckBackToCenter.js";
 import startVehicles from "./startVehicles.js";
 import { calculdistanceTotalALLvehicles } from "./Logic/calculdistanceTotalALLvehicles.js";
 
+
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -14,18 +15,21 @@ const app = express();
 app.use(cors());
 app.use(bodyParser.json());
 
-handelread()
+const filePath = './data/AAC-LT-150_113712.txt';
+const filePath1 = './data/AAC-LT-300.txt';
+
+handelread(filePath)
   .then((data) => {
     const sitesVisited = [];
     const distanceTotal = 0
     const vehicles = handlSlicedata(data).vehicles;
     const central = handlSlicedata(data).central[0];
     const sites = handlSlicedata(data).sites;
-
     const start = startVehicles(central, vehicles, sites, sitesVisited ,distanceTotal);
 
-    app.get("/", (req, res) => {
-      const vehiclessites = vehicles.reduce((acc, compound) => {
+    app.get("/sites", (req, res) => {
+      
+      const vehiclessites = vehicles?.reduce((acc, compound) => {
         if (!acc.some((item) => item.site === compound.site)) {
           acc.push(compound);
         }
@@ -47,10 +51,6 @@ handelread()
           distance:item.vehicle.distance,
         }))
       );
-
-
-
-
       // console.log("start.distanceTotalALLvehicles",start.distanceTotalALLvehicles)
       // console.log(distanceTotalALLvehicles)
        let distanceTotalALLvehicles = calculdistanceTotalALLvehicles(start.distanceTotalALLvehicles)
@@ -62,11 +62,27 @@ handelread()
     
       res.status(200).send({ data: flattenedArray , distanceTotalALLvehicles:distanceTotalALLvehicles  });
     });
+
+
+
+
+    app.get("/vehicles", (req, res) => {
+         let distanceTotalALLvehicles = start.distanceTotalALLvehicles
+         res.status(200).send({distanceTotalALLvehicles});
+    });
+
   })
 
+
+
+
+  
   .catch((err) => {
     console.error("Error:", err);
   });
+
+
+
 
 async function startServer() {
   try {
